@@ -30,12 +30,14 @@ gulp.task('sass', function(){ // преобразование sass в css
 	.pipe(gulp.dest('proj1/css/'))
 });
 
-gulp.task('watch', function(){ // отслеживание изменений 
+gulp.task('watch', ['browser-sync'], function(){ // отслеживание изменений 
 	gulp.watch('proj1/sass/**/*.sass', function(event, cb) {
-		setTimeout(function(){gulp.start('sass');},500) // задача выполниться через 500 миллисекунд и файл успеет сохраниться на диске
+		setTimeout(function(){gulp.start('sass', browserSync.reload);},500) // задача выполниться через 500 миллисекунд и файл успеет сохраниться на диске
 	});
 	gulp.watch('proj1/index.html', function() {
 		runSequence('add');
 	});
+	gulp.watch('proj1/js/**/*.js', browserSync.reload);
+	gulp.watch('proj1/index.html', browserSync.reload);
 });
-gulp.task('default', ['watch', 'browser-sync']);
+gulp.task('default', ['watch']);
