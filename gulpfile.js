@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 gulp.task('browser-sync', function() { // Создаем таск browser-sync
     browserSync({ // Выполняем browserSync
         server: { // Определяем параметры сервера
-            baseDir: 'proj1' // Директория для сервера - proj1
+            baseDir: 'app' // Директория для сервера - proj1
         },
         notify: false // Отключаем уведомления
     });
@@ -16,7 +16,7 @@ gulp.task('browser-sync', function() { // Создаем таск browser-sync
 
 gulp.task('add', function() { // Инициализация измененных файлов
   console.log('adding...');
-  return gulp.src('proj1/')
+  return gulp.src('app/')
     .pipe(git.add());
 });
 
@@ -25,19 +25,19 @@ gulp.task('gitsend', function() {
 });
 
 gulp.task('sass', function(){ // преобразование sass в css
-	return gulp.src('proj1/sass/**/*.sass')
+	return gulp.src('app/sass/**/*.sass')
 	.pipe(sass())
-	.pipe(gulp.dest('proj1/css/'))
+	.pipe(gulp.dest('app/css/'))
 });
 
 gulp.task('watch', ['browser-sync'], function(){ // отслеживание изменений 
-	gulp.watch('proj1/sass/**/*.sass', function(event, cb) {
+	gulp.watch('app/sass/**/*.sass', function(event, cb) {
 		setTimeout(function(){gulp.start('sass', browserSync.reload);},500) // задача выполниться через 500 миллисекунд и файл успеет сохраниться на диске
 	});
-	gulp.watch('proj1/index.html', function() {
+	gulp.watch('app/index.html', function() {
 		runSequence('add');
 	});
-	gulp.watch('proj1/js/**/*.js', browserSync.reload);
-	gulp.watch('proj1/index.html', browserSync.reload);
+	gulp.watch('app/js/**/*.js', browserSync.reload);
+	gulp.watch('app/index.html', browserSync.reload);
 });
 gulp.task('default', ['watch']);
